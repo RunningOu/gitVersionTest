@@ -1,5 +1,26 @@
 package com.IpManage.base;
 
+/**
+ * afsadfhasfhasf
+ * f
+ * fas
+ * fas
+ * df
+ * asf
+ * asf
+ * as
+ * f
+ * asf
+ * asf
+ * asf
+ * asf
+ *
+ * asf
+ * as
+ * f
+ * asdf
+ *
+ */
 public class BaseException extends RuntimeException {
 
     private Object[] params;
