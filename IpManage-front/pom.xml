@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.IpManage</groupId>
+        <artifactId>IpManage</artifactId>
+        <version>1.2.2-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>IpManage-front</artifactId>
+    <version>1.2.2-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <dependencies>
+        <!--红线版本与普通版本统一nginx -->
+        <dependency>
+            <groupId>uyun.3rd</groupId>
+            <artifactId>nginx</artifactId>
+            <version>1.13.1.180414</version>
+            <type>tar.gz</type>
+        </dependency>
+
+        <!--请修改到frontend tar.gz 依赖 -->
+        <dependency>
+            <groupId>uyun.IpManage</groupId>
+            <artifactId>front</artifactId>
+            <version>1.0.0</version>
+            <type>zip</type>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- 添加agent依赖 end -->
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>build-bin</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>assembly.xml</descriptor>
+                            </descriptors>
+                            <finalName>IpManage-front</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <attach>false</attach>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <!-- linux 解析json工具 -->
+                                    <groupId>uyun.soft</groupId>
+                                    <artifactId>util-shell</artifactId>
+                                    <type>tar.gz</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.build.directory}/util-shell</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

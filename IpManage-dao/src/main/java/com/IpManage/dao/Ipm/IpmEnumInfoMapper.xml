@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.IpManage.dao.Ipm.IpmEnumInfoDAO">
+    <!-- 以下与实体类的中字段一致 -->
+    <sql id="selectId">
+        id,
+        parentCode,
+        enumCode,
+        enumName
+    </sql>
+
+    <!--
+	负责人：ouln
+	描述：select by username / return list(page)x
+ -->
+    <select id="queryEnumList" parameterType="IpmEnumInfo" resultType="IpmEnumInfo">
+        SELECT
+        <include refid="selectId"/>
+        FROM ipm_enum_info
+        <where>
+            1=1
+            <if test="parentCode == null || parentCode == ''">
+                and parentCode = ""
+            </if>
+
+            <if test="parentCode != null and parentCode != ''">
+                and parentCode = #{parentCode}
+            </if>
+
+            <if test="enumCode != null and enumCode != ''">
+                and enumCode = #{enumCode}
+            </if>
+            <if test="enumName != null and enumName != ''">
+                and enumName = #{enumName}
+            </if>
+        </where>
+    </select>
+
+    <!--
+	负责人：ouln
+	描述：修改
+ -->
+    <update id="updateEnumInfo" parameterType="IpmEnumInfo">
+        update ipm_enum_info set
+            enumCode=#{enumCode} ,enumName=#{enumName}
+        <if test="parentCode != null and parentCode != ''">
+            ,parentCode=#{parentCode}
+        </if>
+        where id=#{id}
+    </update>
+
+    <insert id="insertEnumInfo" parameterType="IpmEnumInfo">
+        insert into ipm_enum_info(id,parentCode,enumCode,enumName) values(UUID(),#{parentCode},#{enumCode},#{enumName})
+    </insert>
+    <delete id="deleteEnumInfo" parameterType="IpmEnumInfo">
+        DELETE from ipm_enum_info where id=#{id}
+    </delete>
+</mapper>

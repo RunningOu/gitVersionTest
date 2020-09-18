@@ -1,0 +1,4 @@
+itsm.service.exception=ITSM service exception
+alert.service.exception=Alert service exception
+sever.internal.error=Sever internal error
+tenant.not.exist=The tenant is not exist

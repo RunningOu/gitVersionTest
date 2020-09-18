@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.IpManage.dao.Ipm.IpmCountInfoDAO">
+    <!-- 以下与实体类的中字段一致 -->
+
+    <!--
+	负责人：按项目统计
+	描述：select by username / return list(page)
+ -->
+    <select id="countByProject" resultType="java.util.HashMap">
+     SELECT
+        ste.count,
+        ost.enumName as onlineStatus,
+        ste.project as projectCode,
+        ste.onlineStatus as onlineStatusCode,
+        proj.enumName as project
+    FROM
+        (
+            SELECT
+                count(*) as count,
+                project,
+                onlineStatus
+            FROM
+                `ipm_ip_info`
+            WHERE
+                useStatus = '2' and project !=""
+            GROUP BY
+                project,
+                onlineStatus
+        ) ste
+    LEFT JOIN
+    (select enumName,enumCode from ipm_enum_info where parentCode = "onlineStatus") ost on ste.onlineStatus = ost.enumCode
+        LEFT JOIN
+    (select enumName,enumCode from ipm_enum_info where parentCode = "project") proj on ste.project = proj.enumCode
+ </select>
+    <!--
+       负责人：按部门统计统计
+       描述：select by username / return list(page)
+    -->
+    <select id="countByAffiliatedUnit" resultType="java.util.HashMap">
+        SELECT
+            ste.count,
+            ost.enumName as onlineStatus,
+            ste.onlineStatus as onlineStatusCode,
+            ste.affiliatedUnit as affiliatedUnitCode,
+            afu.enumName as affiliatedUnit,
+            ste.useStatus as useStatusCode,
+            ust.enumName as useStatus
+        FROM
+            (
+                SELECT
+                    count(*) as count,
+                    affiliatedUnit,
+                    useStatus,
+                    onlineStatus
+                FROM
+                    `ipm_ip_info`
+                GROUP BY
+                    affiliatedUnit,
+                    useStatus,
+                    onlineStatus
+            ) ste
+        LEFT JOIN
+        (select enumName,enumCode from ipm_enum_info where parentCode = "onlineStatus") ost on ste.onlineStatus = ost.enumCode
+            LEFT JOIN
+        (select enumName,enumCode from ipm_enum_info where parentCode = "affiliatedUnit") afu on ste.affiliatedUnit = afu.enumCode
+            LEFT JOIN
+        (select enumName,enumCode from ipm_enum_info where parentCode = "useStatus") ust on ste.useStatus = ust.enumCode
+    </select>
+</mapper>

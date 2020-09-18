@@ -1,0 +1,67 @@
+<assembly
+        xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+    <id>module</id>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+
+    <dependencySets>
+
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputDirectory>./front</outputDirectory>
+            <includes>
+                <include>uyun.3rd:nginx</include>
+            </includes>
+            <unpack>true</unpack>
+            <scope>runtime</scope>
+        </dependencySet>
+
+        <!--请根据实际情况修改 -->
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputDirectory>./front/frontend/web</outputDirectory>
+            <includes>
+                <include>uyun.IpManage:front</include>
+            </includes>
+            <unpack>true</unpack>
+            <scope>runtime</scope>
+        </dependencySet>
+    </dependencySets>
+
+
+    <fileSets>
+        <fileSet>
+            <lineEnding>unix</lineEnding>
+            <fileMode>0755</fileMode>
+            <directory>omp</directory>
+            <excludes>
+                <exclude>**/README.md</exclude>
+                <exclude>**/.gitignore</exclude>
+            </excludes>
+            <outputDirectory>.</outputDirectory>
+        </fileSet>
+
+        <fileSet>
+            <lineEnding>unix</lineEnding>
+            <fileMode>0755</fileMode>
+            <directory>override</directory>
+            <outputDirectory>.</outputDirectory>
+        </fileSet>
+
+        <fileSet>
+            <directory>target/util-shell</directory>
+            <outputDirectory>.</outputDirectory>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>jq</include>
+                <include>util.sh</include>
+                <include>getopt.sh</include>
+                <include>install.sh</include>
+                <include>crypt.sh</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+</assembly>

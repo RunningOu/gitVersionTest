@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.IpManage.dao.appVersion.AppVersionDAO">
+    <!-- 以下与实体类的中字段一致 -->
+    <sql id="selectId">
+        app_version_id,
+        app_name,
+        app_version,
+        app_type,
+        app_status,
+        app_path,
+        created_at,
+        updated_at
+    </sql>
+
+    <!--
+	负责人：yangfei
+	描述：select by username / return list(page)
+ -->
+    <select id="selectAppVersionByAppName" parameterType="AppVersionDO" resultType="AppVersionDO">
+        SELECT
+        <include refid="selectId"/>
+        FROM app_version
+        WHERE app_name = #{app_name} order by created_at desc limit 1
+    </select>
+
+
+    <!--
+负责人：yangfei
+描述：insert user  启用自动生成id策略
+-->
+    <insert id="insertAppVersion" parameterType="AppVersionDO">
+        INSERT INTO app_version
+        (app_name,app_version,app_type,app_status,app_path,created_at,updated_at)
+        VALUES
+        (#{app_name},#{app_version},#{app_type},#{app_status},#{app_path},now(),now())
+    </insert>
+
+</mapper>

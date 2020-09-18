@@ -1,0 +1,130 @@
+swagger: "2.0"
+info:
+  description: IpManage项目
+  version: 1.0.0
+  title: IpManage OpenAPI
+  contact:
+    email: yangfei1@uyunsoft.cn
+  license:
+    name: Apache 2.0
+    url: https://uyun.cn
+
+basePath: /
+
+schemes:
+  - http
+
+produces:
+  - application/json
+
+consumes:
+  - application/json
+
+paths:
+  /AppVersion/uyun/getAppVersion/get:
+    get:
+      operationId: queryVersionByAppName
+      summary: '根据AppName获取指定指标版本信息'
+      parameters:
+        - name: apikey
+          in: query
+          description: 访问APIKEY
+          type: string
+        - name: app_name
+          in: query
+          description: app_name
+          type: string
+      responses:
+        200:
+          description: 成功
+          schema:
+           $ref: '#/definitions/AppVersionDO'
+        400:
+          description: 失败
+          schema:
+           $ref: '#/definitions/AppVersionDO'
+  /AppVersion/uyun/insertAppVersion:
+    post:
+      operationId: insertAppVersion
+      summary: '创建一个版本'
+      parameters:
+        - name: apikey
+          in: query
+          description: 访问APIKEY
+          type: string
+        - name: appVersionDO
+          in: body
+          description: 建立指标类型定义数据
+          schema:
+            $ref: '#/definitions/AppVersionDO'
+      responses:
+        200:
+          description: 成功
+          schema:
+            $ref: '#/definitions/AppVersionDO'
+        400:
+          description: 失败
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+definitions:
+  ErrorResponse:
+    type: object
+    required:
+      - error
+    properties:
+      error:
+        $ref: '#/definitions/Error'
+
+  Error:
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: string
+        description: 错误编码
+        example: IllegalParameter
+      message:
+        type: string
+        description: 错误消息
+        example: 用户名称不能为空
+      path:
+        type: string
+        description: 请求路径
+        example: /openapi/v1/metrics/query
+      time:
+        type: string
+        description: 出错时间
+        example: 2017-02-21 09:11:20 232
+
+  AppVersionDO:
+    type: object
+    required:
+      - code
+    properties:
+      app_version_id:
+        type: integer
+        example: 'app_version_id'
+        description: '版本编码'
+      app_name:
+        type: string
+        example: 'app_name'
+        description: 'app名称'
+      app_version:
+        type: string
+        example: 'app_version'
+        description: 'app版本'
+      app_type:
+        type: string
+        example: 'app_type'
+        description: 'app类型'
+      app_status:
+        type: string
+        example: 'app_status'
+        description: 'app状态'
+      app_path:
+        type: string
+        example: 'app_path'
+        description: 'app路径'

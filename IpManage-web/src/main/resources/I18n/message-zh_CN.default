@@ -1,0 +1,4 @@
+itsm.service.exception=ITSM服务异常
+alert.service.exception=Alert服务异常
+sever.internal.error=服务器内部错误
+tenant.not.exist=租户不存在

@@ -1,0 +1,56 @@
+{
+  "entryChunk": {
+    "index": "./src/index.js"
+  },
+
+  "template": [
+    {
+      "path": "./public/index.html",
+      "entry": "index"
+    }
+  ],
+  "vars": {
+    "importLayout": true
+  },
+  "alias": {
+    "~": "./src"
+  },
+  "output": {
+    "publicPath": "/IpManage"
+  },
+  "commonChunk": {
+    "vendor": [
+      "react",
+      "react-dom",
+      "react-router",
+      "mobx"
+    ]
+  },
+  "proxy": [{
+    "context": ["/tenant/**", "/api/**","/notify/**","/frontend/**","/cmdb/**","/count/**","/alert/**"],
+    "target": "http://15.234.40.110/",
+	//"target": "http://192.168.0.28/",//  http://15.75.5.137/  http://192.168.0.27/     http://127.0.0.1/
+    "secure": false
+		
+		
+  },{
+    "context": ["/alertConf/**","/zdzd/**","/uyun/**","/alertInfo/**"],
+	"target": "http://15.234.40.110/IpManage/api/",
+	//"target": "http://192.168.0.28/IpManage/api/",
+	//"target": "http://192.168.1.107:65520/",
+    "secure": false
+  }
+],
+  "extraBabelPlugins": [
+    ["import", [
+      {
+        "libraryName": "@uyun/uyd",
+        "style": true
+      }
+    ]],
+    ["@uyun/everest-i18n/babel", {
+      "locales": "./src/common/locales.json",
+      "translators": ["__"]
+    }]
+  ]
+}
